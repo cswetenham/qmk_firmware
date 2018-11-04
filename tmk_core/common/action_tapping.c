@@ -73,6 +73,17 @@ void action_tapping_process(keyrecord_t record)
     }
 }
 
+#ifdef PERMISSIVE_HOLD
+  #define FEATURE_PERMISSIVE_HOLD 1
+#else
+  #define FEATURE_PERMISSIVE_HOLD 0
+#endif
+
+#ifdef TAPPING_FORCE_HOLD
+  #define FEATURE_TAPPING_FORCE_HOLD 1
+#else
+  #define FEATURE_TAPPING_FORCE_HOLD 0
+#endif
 
 /** \brief Tapping
  *
@@ -100,20 +111,21 @@ bool process_tapping(keyrecord_t *keyp)
                     // enqueue
                     return false;
                 }
-#if TAPPING_TERM >= 500 || defined PERMISSIVE_HOLD
-                /* Process a key typed within TAPPING_TERM
-                 * This can register the key before settlement of tapping,
-                 * useful for long TAPPING_TERM but may prevent fast typing.
-                 */
-                if (IS_RELEASED(event) && waiting_buffer_typed(event)) {
-                    debug("Tapping: End. No tap. Interfered by typing key\n");
-                    process_record(&tapping_key);
-                    tapping_key = (keyrecord_t){};
-                    debug_tapping_key();
-                    // enqueue
-                    return false;
+
+                if (TAPPING_TERM >= 500 || FEATURE_PERMISSIVE_HOLD) {
+                  /* Process a key typed within TAPPING_TERM
+                  * This can register the key before settlement of tapping,
+                  * useful for long TAPPING_TERM but may prevent fast typing.
+                  */
+                  if (IS_RELEASED(event) && waiting_buffer_typed(event)) {
+                      debug("Tapping: End. No tap. Interfered by typing key\n");
+                      process_record(&tapping_key);
+                      tapping_key = (keyrecord_t){};
+                      debug_tapping_key();
+                      // enqueue
+                      return false;
+                  }
                 }
-#endif
                 /* Process release event of a key pressed before tapping starts
                  * Without this unexpected repeating will occur with having fast repeating setting
                  * https://github.com/tmk/tmk_keyboard/issues/60
@@ -233,18 +245,18 @@ bool process_tapping(keyrecord_t *keyp)
         if (WITHIN_TAPPING_TERM(event)) {
             if (event.pressed) {
                 if (IS_TAPPING_KEY(event.key)) {
-#ifndef TAPPING_FORCE_HOLD
-                    if (!tapping_key.tap.interrupted && tapping_key.tap.count > 0) {
-                        // sequential tap.
-                        keyp->tap = tapping_key.tap;
-                        if (keyp->tap.count < 15) keyp->tap.count += 1;
-                        debug("Tapping: Tap press("); debug_dec(keyp->tap.count); debug(")\n");
-                        process_record(keyp);
-                        tapping_key = *keyp;
-                        debug_tapping_key();
-                        return true;
+                    if (!FEATURE_TAPPING_FORCE_HOLD) {
+                      if (!tapping_key.tap.interrupted && tapping_key.tap.count > 0) {
+                          // sequential tap.
+                          keyp->tap = tapping_key.tap;
+                          if (keyp->tap.count < 15) keyp->tap.count += 1;
+                          debug("Tapping: Tap press("); debug_dec(keyp->tap.count); debug(")\n");
+                          process_record(keyp);
+                          tapping_key = *keyp;
+                          debug_tapping_key();
+                          return true;
+                      }
                     }
-#endif
                     // FIX: start new tap again
                     tapping_key = *keyp;
                     return true;
