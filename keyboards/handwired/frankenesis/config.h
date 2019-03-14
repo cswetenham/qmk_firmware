@@ -23,13 +23,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define VENDOR_ID       0xFEED
 #define PRODUCT_ID      0x0000
 #define DEVICE_VER      0x0001
-#define MANUFACTURER    You
-#define PRODUCT         frankenesis
-#define DESCRIPTION     A custom keyboard
+#define MANUFACTURER    IrisWorks
+#define PRODUCT         Frankenesis
+#define DESCRIPTION     QMK keyboard firmware for hack of Kinesis Advantage
 
 /* key matrix size */
-#define MATRIX_ROWS 2
-#define MATRIX_COLS 3
+#define MATRIX_ROWS 12
+#define MATRIX_COLS 8
 
 /*
  * Keyboard Matrix Assignments
@@ -41,8 +41,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *                  ROW2COL = ROW = Anode (+), COL = Cathode (-, marked on diode)
  *
 */
-#define MATRIX_ROW_PINS { D0, D5 }
-#define MATRIX_COL_PINS { F1, F0, B0 }
+// TODO may need to swap COL2ROW...
+#define MATRIX_ROW_PINS { F7, F6, F5, F4, F3, F2, F1, F0, B0, B1, B2, B3 }
+#define MATRIX_COL_PINS { C0, C1, C2, C3, C4, C5, C6, C7 }
 #define UNUSED_PINS
 
 /* COL2ROW, ROW2COL, or CUSTOM_MATRIX */
@@ -98,7 +99,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * power-up.
  *
  */
-//#define FORCE_NKRO
+#define FORCE_NKRO
 
 /*
  * Magic Key Options
@@ -159,17 +160,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /* disable debug print */
-//#define NO_DEBUG
+#ifndef NO_DEBUG
+  #define NO_DEBUG
+#endif
 
 /* disable print */
-//#define NO_PRINT
+#ifndef NO_PRINT
+  #define NO_PRINT
+#endif
 
 /* disable action features */
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
-//#define NO_ACTION_ONESHOT
-//#define NO_ACTION_MACRO
-//#define NO_ACTION_FUNCTION
+#define NO_ACTION_ONESHOT
+#define NO_ACTION_MACRO
+#define NO_ACTION_FUNCTION
 
 /*
  * MIDI options

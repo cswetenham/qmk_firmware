@@ -1,19 +1,5 @@
-/* Copyright 2018 REPLACE_WITH_YOUR_NAME
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-#include QMK_KEYBOARD_H
+#include "keymap_common.h"
+#include "action_layer.h"
 
 // Layer names, for readability
 #define _BASE 0
@@ -49,7 +35,7 @@
         { KC_NO, k03,   k13,   k23,   KC_NO, KC_NO, KC_NO, KC_NO }, \
         { KC_NO, k02,   k12,   k22,   KC_NO, k35,   KC_NO, KC_NO }, \
         { KC_NO, k01,   k11,   k21,   KC_NO, k34,   KC_NO, KC_NO }, \
-        { RESET, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO }, \
+        { KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO }, \
         { KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, k75,   KC_NO }, \
         { KC_NO, k41,   k51,   k61,   KC_NO, KC_NO, KC_NO, KC_NO }, \
         { KC_NO, k42,   k52,   k62,   KC_NO, KC_NO, k74,   KC_NO }, \
@@ -59,9 +45,28 @@
   }
 
 
+// layer3 on iff layer1 and layer2 are on. Given how layers are ordered,
+// higher layers have priority, so layer3 should be > layer1 and layer2.
+uint32_t update_tri_layer_state(uint32_t state, uint8_t layer1, uint8_t layer2, uint8_t layer3) {
+  uint32_t mask12 = (1UL << layer1) | (1ULL << layer2);
+  uint32_t mask3 = 1UL << layer3;
+  return (state & mask12) == mask12 ? (state | mask3) : (state & ~mask3);
+}
+
+void hook_layer_change(uint32_t layer_state) {
+  uint32_t old_layer_state = layer_state;
+  layer_state = update_tri_layer_state(layer_state, _L_FN, _L_RAISE, _L_LOWER);
+  layer_state = update_tri_layer_state(layer_state, _R_FN, _R_RAISE, _R_LOWER);
+  // Prevent infinite recursion
+  if (layer_state != old_layer_state) {
+    // Tedious...maybe expand update_tri_layer and refactor?
+    // layer_state_set(layer_state);
+    layer_xor(layer_state ^ old_layer_state);
+  }
+}
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-// TODO try this sometime
 /* Base - Colemak Mod-DH
  *
  * ,----------------------------------.           ,----------------------------------.
@@ -247,10 +252,4 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
-// If FN and RAISE layers are active, then activate LOWER as well on that side.
-// Relies on LOWER being a higher layer number than FN and RAISE.
-uint32_t layer_state_set_user(uint32_t state) {
-  state = update_tri_layer_state(state, _L_FN, _L_RAISE, _L_LOWER);
-  state = update_tri_layer_state(state, _R_FN, _R_RAISE, _R_LOWER);
-  return state;
-}
+const action_t PROGMEM fn_actions[] = {};

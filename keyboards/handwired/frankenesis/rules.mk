@@ -1,6 +1,6 @@
 # MCU name
-#MCU = at90usb1286
-MCU = atmega32u4
+#MCU = atmega32u4
+MCU = at90usb1286
 
 # Processor frequency.
 #     This will define a symbol, F_CPU, in all source code files equal to the
@@ -46,7 +46,9 @@ OPT_DEFS += -DINTERRUPT_CONTROL_ENDPOINT
 #   LUFA DFU     lufa-dfu
 #   QMK DFU      qmk-dfu
 #   atmega32a    bootloadHID
-BOOTLOADER = atmel-dfu
+# TODO is qmk-dfu an option too?
+# BOOTLOADER = atmel-dfu
+BOOTLOADER = halfkay
 
 
 # If you don't know the bootloader type, then you can specify the
@@ -56,17 +58,18 @@ BOOTLOADER = atmel-dfu
 #   Atmel DFU loader    4096
 #   LUFA bootloader     4096
 #   USBaspLoader        2048
-# OPT_DEFS += -DBOOTLOADER_SIZE=4096
+#   TODO tmk_keyboard wiki says 2048 for halfKay but this comment above says 1024...
+# OPT_DEFS += -DBOOTLOADER_SIZE=2048
 
 
 # Build Options
 #   change yes to no to disable
 #
-BOOTMAGIC_ENABLE = no      # Virtual DIP switch configuration(+1000)
+BOOTMAGIC_ENABLE = no       # Virtual DIP switch configuration(+1000)
 MOUSEKEY_ENABLE = yes       # Mouse keys(+4700)
 EXTRAKEY_ENABLE = yes       # Audio control and System control(+450)
-CONSOLE_ENABLE = yes        # Console for debug(+400)
-COMMAND_ENABLE = yes        # Commands for debug and configuration
+CONSOLE_ENABLE = no         # Console for debug(+400)
+COMMAND_ENABLE = no         # Commands for debug and configuration
 # Do not enable SLEEP_LED_ENABLE. it uses the same timer as BACKLIGHT_ENABLE
 SLEEP_LED_ENABLE = no       # Breathing sleep LED during USB suspend
 # if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ#nkro-doesnt-work
@@ -79,3 +82,11 @@ BLUETOOTH_ENABLE = no       # Enable Bluetooth with the Adafruit EZ-Key HID
 AUDIO_ENABLE = no           # Audio output on port C6
 FAUXCLICKY_ENABLE = no      # Use buzzer to emulate clicky switches
 HD44780_ENABLE = no 		# Enable support for HD44780 based LCDs (+400)
+
+NKRO_ENABLE = yes	# USB Nkey Rollover
+
+# TODO I'll come back to this later once the keyboard itself works, and if I can be bothered.
+#PS2_USE_INT = yes
+##PS2_USE_BUSYWAIT = yes
+##PS2_USE_USART = yes
+#PS2_MOUSE_ENABLE = yes

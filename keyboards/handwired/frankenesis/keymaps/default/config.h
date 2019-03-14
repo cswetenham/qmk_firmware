@@ -1,19 +1,20 @@
-/* Copyright 2018 REPLACE_WITH_YOUR_NAME
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+#ifndef CONFIG_USER_H
+#define CONFIG_USER_H
+
+#include "../../config.h"
 
 #pragma once
 
-// place overrides here
+#define TAPPING_TERM 100
+#undef PERMISSIVE_HOLD
+#define IGNORE_MOD_TAP_INTERRUPT
+#undef RETRO_TAPPING
+
+// How many taps before triggering the toggle
+#define TAPPING_TOGGLE 2
+// NOTE undef'ing this means that keys can autorepeat, instead.
+#undef TAPPING_FORCE_HOLD
+// Allows sending more than one key per scan. By default, only one key event gets sent via process_record() per scan. This has little impact on most typing, but if you're doing a lot of chords, or your scan rate is slow to begin with, you can have some delay in processing key events. Each press and release is a separate event. For a keyboard with 1ms or so scan times, even a very fast typist isn't going to produce the 500 keystrokes a second needed to actually get more than a few ms of delay from this. But if you're doing chording on something with 3-4ms scan times? You probably want this.
+#define QMK_KEYS_PER_SCAN 4
+
+#endif
