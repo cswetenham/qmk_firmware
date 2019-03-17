@@ -49,13 +49,13 @@
         { KC_NO, k03,   k13,   k23,   KC_NO, KC_NO, KC_NO, KC_NO }, \
         { KC_NO, k02,   k12,   k22,   KC_NO, k35,   KC_NO, KC_NO }, \
         { KC_NO, k01,   k11,   k21,   KC_NO, k34,   KC_NO, KC_NO }, \
-        { RESET, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO }, \
+        { KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO }, \
         { KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, k75,   KC_NO }, \
         { KC_NO, k41,   k51,   k61,   KC_NO, KC_NO, KC_NO, KC_NO }, \
         { KC_NO, k42,   k52,   k62,   KC_NO, KC_NO, k74,   KC_NO }, \
         { KC_NO, k43,   k53,   k63,   KC_NO, KC_NO, KC_NO, KC_NO }, \
         { KC_NO, k44,   k54,   k64,   KC_NO, KC_NO, KC_NO, KC_NO }, \
-        { KC_NO, k45,   k55,   k65,   KC_NO, KC_NO, KC_NO, KC_NO } \
+        { KC_NO, k45,   k55,   k65,   KC_NO, KC_NO, RESET, KC_NO } \
   }
 
 

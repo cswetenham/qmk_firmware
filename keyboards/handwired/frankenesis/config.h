@@ -41,7 +41,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *                  ROW2COL = ROW = Anode (+), COL = Cathode (-, marked on diode)
  *
 */
-// TODO may need to swap COL2ROW...
 #define MATRIX_ROW_PINS { F7, F6, F5, F4, F3, F2, F1, F0, B0, B1, B2, B3 }
 #define MATRIX_COL_PINS { C0, C1, C2, C3, C4, C5, C6, C7 }
 #define UNUSED_PINS
@@ -49,36 +48,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* COL2ROW, ROW2COL, or CUSTOM_MATRIX */
 #define DIODE_DIRECTION COL2ROW
 
-// #define BACKLIGHT_PIN B7
-// #define BACKLIGHT_BREATHING
-// #define BACKLIGHT_LEVELS 3
-
-// #define RGB_DI_PIN E2
-// #ifdef RGB_DI_PIN
-// #define RGBLIGHT_ANIMATIONS
-// #define RGBLED_NUM 16
-// #define RGBLIGHT_HUE_STEP 8
-// #define RGBLIGHT_SAT_STEP 8
-// #define RGBLIGHT_VAL_STEP 8
-// #endif
-
 /* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
+// NOTE it looks like at some point the code changed from 'DEBOUNCE' to 'DEBOUNCING_DELAY' with a better impl in
+// quantum/matrix.c, but older keyboards with their own matrix.c still use 'DEBOUNCE' instead.
+// NOTE ergodox ez defines this as 15 intead, could try a that although at best it would have fixed the dodgy blues,
+// I think the coppers are fine.
 #define DEBOUNCING_DELAY 5
 
 /* define if matrix has ghost (lacks anti-ghosting diodes) */
 //#define MATRIX_HAS_GHOST
 
-/* number of backlight levels */
+#define TAPPING_TERM    200
 
-/* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
-#define LOCKING_SUPPORT_ENABLE
-/* Locking resynchronize hack */
-#define LOCKING_RESYNC_ENABLE
+// this makes it possible to do rolling combos (zx) with keys that convert to other keys on hold
+// (z becomes ctrl when you hold it, and when this option isn't enabled, z rapidly followed by x actually sends Ctrl-x.
+// That's bad.)
+#define IGNORE_MOD_TAP_INTERRUPT
 
-/* If defined, GRAVE_ESC will always act as ESC when CTRL is held.
- * This is userful for the Windows task manager shortcut (ctrl+shift+esc).
- */
-// #define GRAVE_ESC_CTRL_OVERRIDE
+#if 0 //!!!!!!!
+// These are what the minidox settings *used to be* but don't feel right. I don't know what the settings are currently that
+// are flashed into it. Neither T440s nor work laptop had consistent-looking changes.
+
+#undef PERMISSIVE_HOLD
+#undef RETRO_TAPPING
+
+// How many taps before triggering the toggle
+#define TAPPING_TOGGLE 2
+// NOTE undef'ing this means that keys can autorepeat, instead.
+#undef TAPPING_FORCE_HOLD
+// Allows sending more than one key per scan. By default, only one key event gets sent via process_record() per scan. This has little impact on most typing, but if you're doing a lot of chords, or your scan rate is slow to begin with, you can have some delay in processing key events. Each press and release is a separate event. For a keyboard with 1ms or so scan times, even a very fast typist isn't going to produce the 500 keystrokes a second needed to actually get more than a few ms of delay from this. But if you're doing chording on something with 3-4ms scan times? You probably want this.
+#define QMK_KEYS_PER_SCAN 4
 
 /*
  * Force NKRO
@@ -100,6 +99,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 #define FORCE_NKRO
+
+#else //!!!!!!!
+// These are the settings that are the default in the ergodox ez firmware. Since the layout feels fine on the ez with the
+// layout compiled online, this is what I'm going to try next.
+// Edit: wow, with these settings it's perfect, I have no idea which part did the trick...
+
+// How many taps before triggering the toggle
+#define TAPPING_TOGGLE  1
+
+#define DISABLE_SPACE_CADET_ROLLOVER
+
+#define PREVENT_STUCK_MODIFIERS
+
+#endif //!!!!!!!
+
+/* number of backlight levels */
+
+/* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
+#define LOCKING_SUPPORT_ENABLE
+/* Locking resynchronize hack */
+#define LOCKING_RESYNC_ENABLE
 
 /*
  * Magic Key Options
@@ -153,6 +173,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define MAGIC_KEY_EEPROM         E
 //#define MAGIC_KEY_NKRO           N
 //#define MAGIC_KEY_SLEEP_LED      Z
+
 
 /*
  * Feature disable options
