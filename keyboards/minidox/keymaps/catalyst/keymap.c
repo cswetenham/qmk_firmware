@@ -41,6 +41,20 @@ enum custom_keycodes {
 // #define CALTDEL LCTL(LALT(KC_DEL))
 // #define TSKMGR LCTL(LSFT(KC_ESC))
 
+// NOTE added tri-layer so we can use just 2 thumb keys
+
+void hook_layer_change(uint32_t layer_state) {
+  uint32_t old_layer_state = layer_state;
+  layer_state = update_tri_layer_state(layer_state, _L_FN, _L_RAISE, _L_LOWER);
+  layer_state = update_tri_layer_state(layer_state, _R_FN, _R_RAISE, _R_LOWER);
+  // Prevent infinite recursion
+  if (layer_state != old_layer_state) {
+    // Tedious...maybe expand update_tri_layer and refactor?
+    // layer_state_set(layer_state);
+    layer_xor(layer_state ^ old_layer_state);
+  }
+}
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #if 0 // Colemak
@@ -72,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,----------------------------------.           ,----------------------------------.
  * |   Q  |   W  |   E  |   R  |   T  |           |   Y  |   U  |   I  |   O  |   P  |
  * |------+------+------+------+------|           |------+------+------+------+------|
- * |   A  |   S  |   D  |   F  |   G  |           |   H  |   J  |   K  |   L  |      |
+ * |   A  |   S  |   D  |   F  |   G  |           |   H  |   J  |   K  |   L  |   ;  |
  * |------+------+------+------+------|           |------+------+------+------+------|
  * |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |      |
  * `----------------------------------'           `----------------------------------'
@@ -86,9 +100,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_BASE] = LAYOUT( \
   KC_Q,  KC_W,  KC_E,  KC_R,  KC_T,      KC_Y, KC_U,  KC_I,    KC_O,   KC_P, \
   LG(A), LA(S), LC(D), LS(F), KC_G,      KC_H, RS(J), RC(K),   RA(L),  KC_RGUI, \
-  KC_Z,  KC_X,  KC_C,  KC_V,  KC_B,      KC_N, KC_M,  KC_COMM, KC_DOT, XXXXXXX, \
+  KC_Z,  KC_X,  KC_C,  KC_V,  KC_B,      KC_N, KC_M,  KC_COMM, KC_DOT, KC_SCLN, \
   MO(_L_LOWER), LT(_L_RAISE,KC_BSPC), LT(_L_FN,KC_TAB), LT(_R_FN,KC_ENT), LT(_R_RAISE,KC_SPC), MO(_R_LOWER) \
 ),
+// NOTE added semicolon even though it's redundant, so that i3 shortcut works for motion. Could pick a diff character.
 #endif
 
 /* Raise Left
