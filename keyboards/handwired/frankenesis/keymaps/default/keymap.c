@@ -37,6 +37,7 @@
 #define LS(KEY) MT(MOD_LSFT, KC_ ## KEY)
 #define RS(KEY) MT(MOD_RSFT, KC_ ## KEY)
 
+// NOTE: mouse keys go Middle (BTN2), Right (BTN3), Left (BTN1) as I have placed them here. 
 #define LAYOUT( \
   k01, k02, k03, k04, k05,    k45, k44, k43, k42, k41, \
   k11, k12, k13, k14, k15,    k55, k54, k53, k52, k51, \
@@ -44,9 +45,9 @@
             k33, k34, k35,    k75, k74, k73            \
   ) \
   { \
-        { KC_NO, k05,   k15,   k25,   KC_NO, KC_NO, KC_NO, KC_NO }, \
-        { KC_NO, k04,   k14,   k24,   KC_NO, KC_NO, KC_NO, KC_NO }, \
-        { KC_NO, k03,   k13,   k23,   KC_NO, KC_NO, KC_NO, KC_NO }, \
+        { KC_NO, k05,   k15,   k25,   KC_BTN1, KC_NO, KC_NO, KC_NO }, \
+        { KC_NO, k04,   k14,   k24,   KC_BTN3, KC_NO, KC_NO, KC_NO }, \
+        { KC_NO, k03,   k13,   k23,   KC_BTN2, KC_NO, KC_NO, KC_NO }, \
         { KC_NO, k02,   k12,   k22,   KC_NO, k35,   KC_NO, KC_NO }, \
         { KC_NO, k01,   k11,   k21,   KC_NO, k34,   KC_NO, KC_NO }, \
         { KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO }, \
