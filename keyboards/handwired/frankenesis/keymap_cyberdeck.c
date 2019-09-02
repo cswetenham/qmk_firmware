@@ -44,7 +44,7 @@
         { KC_NO, k45,   k55,   k65,   KC_NO, KC_NO, KC_NO, KC_NO } \
   }
 
-// TODO maybe this should be using the version from quantum.h?
+//!!!!!!!!!!!!!!! THIS IS THE OLD FILE COPIED FROM TMK, SEE keymaps/default/keymap.c FOR THE ACTUAL IMPLEMENTATION!!!!!!!!!!!!
 
 // layer3 on iff layer1 and layer2 are on. Given how layers are ordered,
 // higher layers have priority, so layer3 should be > layer1 and layer2.
