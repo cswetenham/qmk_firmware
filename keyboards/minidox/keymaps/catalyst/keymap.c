@@ -14,16 +14,6 @@ extern keymap_config_t keymap_config;
 #define _L_LOWER 5
 #define _R_LOWER 6
 
-// Used by process_record_user
-#if 0
-enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
-  RAISE,
-  ADJUST,
-  LOWER,
-};
-#endif
-
 // Fillers to make layering more clear
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
@@ -53,30 +43,6 @@ uint32_t layer_state_set_user(uint32_t state) {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-#if 0 // Colemak
-/* Base - Colemak Mod-DH
- *
- * ,----------------------------------.           ,----------------------------------.
- * |   Q  |   W  |   F  |   P  |   B  |           |   J  |   L  |   U  |   Y  |      |
- * |------+------+------+------+------|           |------+------+------+------+------|
- * |   A  |   R  |   S  |   T  |   G  |           |   M  |   N  |   E  |   I  |   O  |
- * |------+------+------+------+------|           |------+------+------+------+------|
- * |   Z  |   X  |   C  |   D  |   V  |           |   K  |   H  |   ,  |   .  |      |
- * `----------------------------------'           `----------------------------------'
- *                  ,--------------------.    ,------,-------------.
- *                  |      | Bksp |      |    |      | Space|      |
- *                  | Lower| Raise| Tab  |    | Enter| Raise| Lower|
- *                  `-------------| Fn   |    |  Fn  |-------------'
- *                                |      |    |      |
- *                                `------'    `------'
- */
-[_BASE] = LAYOUT( \
-  KC_Q,  KC_W,  KC_F,  KC_P,  KC_B,      KC_J, KC_L,  KC_U,    KC_Y,   XXXXXXX, \
-  LG(A), LA(R), LC(S), LS(T), KC_G,      KC_M, RS(N), RC(E),   RA(I),  RG(O), \
-  KC_Z,  KC_X,  KC_C,  KC_D,  KC_V,      KC_K, KC_H,  KC_COMM, KC_DOT, XXXXXXX, \
-  MO(_L_LOWER), LT(_L_RAISE,KC_BSPC), LT(_L_FN,KC_TAB), LT(_R_FN,KC_ENT), LT(_R_RAISE,KC_SPC), MO(_R_LOWER) \
-),
-#else // Qwerty
 /* Base - Qwerty
  *
  * ,----------------------------------.           ,----------------------------------.
@@ -100,7 +66,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   MO(_L_LOWER), LT(_L_RAISE,KC_BSPC), LT(_L_FN,KC_TAB), LT(_R_FN,KC_ENT), LT(_R_RAISE,KC_SPC), MO(_R_LOWER) \
 ),
 // NOTE added semicolon even though it's redundant, so that i3 shortcut works for motion. Could pick a diff character.
-#endif
 
 /* Raise Left
  *
@@ -164,7 +129,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // NOTE: mouse buttons aren't MT().
 // NOTE: need to split, otherwise can't hold e.g. up and left at the same time.
 // Alternatively could split layers into left and right layers, as in ergodox version.
-[_L_FN] =  LAYOUT( \
+[_L_FN] = LAYOUT( \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, KC_HOME, KC_PGDN, KC_PGUP, KC_END, \
   KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, \
@@ -205,7 +170,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------|           |------+------+------+------+------|
  * |      |      |      |      |      |           |      |  F4  |  F5  |  F6  | F11  |
  * |------+------+------+------+------|           |------+------+------+------+------|
- * |      |      |      |      |      |           |      |  F1  |  F2  |  F3  | F12  |
+ * | Reset|      |      |      |      |           |      |  F1  |  F2  |  F3  | F12  |
  * `----------------------------------'           `----------------------------------'
  *                  ,--------------------.    ,------,-------------.
  *                  |      |      |      |    |      |      |      |
@@ -217,7 +182,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_L_LOWER] = LAYOUT( \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, KC_F7, KC_F8, KC_F9, KC_F10, \
   KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,      XXXXXXX, KC_F4, KC_F5, KC_F6, KC_F11, \
-  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, KC_F1, KC_F2, KC_F3, KC_F12, \
+  RESET,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, KC_F1, KC_F2, KC_F3, KC_F12, \
                     _______, _______, _______,      _______, _______, _______ \
 ),
 
@@ -248,53 +213,5 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
-// TODO idk what this does
-void persistant_default_layer_set(uint16_t default_layer) {
-  eeconfig_update_default_layer(default_layer);
-  default_layer_set(default_layer);
-}
 
-#if 0
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case QWERTY:
-      if (record->event.pressed) {
-        #ifdef AUDIO_ENABLE
-          PLAY_SONG(tone_qwerty);
-        #endif
-        persistant_default_layer_set(1UL<<_QWERTY);
-      }
-      return false;
-      break;
-    case LOWER:
-      if (record->event.pressed) {
-        layer_on(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_LOWER);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case RAISE:
-      if (record->event.pressed) {
-        layer_on(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_RAISE);
-        update_tri_layer(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case ADJUST:
-      if (record->event.pressed) {
-        layer_on(_ADJUST);
-      } else {
-        layer_off(_ADJUST);
-      }
-      return false;
-      break;
-  }
-  return true;
-}
-#endif
+
