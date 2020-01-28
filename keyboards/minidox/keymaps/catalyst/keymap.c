@@ -140,11 +140,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Fn Right
  *
  * ,----------------------------------.           ,----------------------------------.
- * |      | Back | Play | Next |      |           |      |      |      |      |      |
+ * |      | Back | Play | Next | PrScn|           |      |      |      |      |      |
  * |------+------+------+------+------|           |------+------+------+------+------|
  * |      |LClick|MClick|RClick|      |           |      |      |      |      |      |
  * |------+------+------+------+------|           |------+------+------+------+------|
- * | Reset| Vol- | Mute | Vol+ |      |           |      |      |      |      |      |
+ * | Reset| Vol- | Mute | Vol+ | Pause|           |      |      |      |      |      |
  * `----------------------------------'           `----------------------------------'
  *                  ,--------------------.    ,------,-------------.
  *                  |      |      |      |    |      |      |      |
@@ -156,9 +156,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // NOTE: need to split, otherwise can't hold e.g. up and left at the same time.
 // Alternatively could split layers into left and right layers, as in ergodox version.
 [_R_FN] =  LAYOUT( \
-  XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+  XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, KC_PSCR,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
   XXXXXXX, KC_BTN1, KC_BTN3, KC_BTN2, XXXXXXX,      XXXXXXX, KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI, \
-  RESET,   KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+  RESET,   KC_VOLD, KC_MUTE, KC_VOLU, KC_PAUS,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
                     _______, _______, _______,      _______, _______, _______  \
 ),
 
@@ -201,7 +201,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                |      |    |      |
  *                                `------'    `------'
  */
-// NOTE: didn't implement the mods on the right
+// NOTE: didn't implement the mods on the left
 [_R_LOWER] = LAYOUT( \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI, \
