@@ -1,16 +1,19 @@
+/* Copyright 2020 Iris Swetenham
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include QMK_KEYBOARD_H
-
-// Each layer gets a name for readability, which is then used in the keymap matrix below.
-// The underscores don't mean anything - you can have a layer called STUFF or any other name.
-// Layer names don't all need to be of the same length, obviously, and you can also skip them
-// entirely and just use numbers.
-#define _BASE 0
-#define _L_FN 1
-#define _R_FN 2
-#define _L_RAISE 3
-#define _R_RAISE 4
-#define _L_LOWER 5
-#define _R_LOWER 6
 
 // Fillers to make layering more clear
 #define _______ KC_TRNS
@@ -25,9 +28,16 @@
 #define LS(KEY) MT(MOD_LSFT, KC_ ## KEY)
 #define RS(KEY) MT(MOD_RSFT, KC_ ## KEY)
 
-// Defines for task manager and such
-// #define CALTDEL LCTL(LALT(KC_DEL))
-// #define TSKMGR LCTL(LSFT(KC_ESC))
+// Defines names for use in layer keycodes and the keymap
+enum layer_names {
+    _BASE,
+    _L_FN,
+    _R_FN,
+    _L_RAISE,
+    _R_RAISE,
+    _L_LOWER,
+    _R_LOWER
+};
 
 // NOTE added tri-layer so we can use just 2 thumb keys
 
@@ -39,6 +49,13 @@ uint32_t layer_state_set_user(uint32_t state) {
   return state;
 }
 
+// TODO gaming layer switched on/off by outermost thumb keys
+// TODO another difference between my compiled ergodox layout and the one below is that
+// this one has plain modifiers on the off hand of the raise and fn layers, and XXXXXX / KC_NO on the rest,
+// but the ergodox has KC_TRANSPARENT / KC_TRNS / ______ for all of them.
+
+// That can be the next thing I test...
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Base - Qwerty
@@ -48,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------|           |------+------+------+------+------|
  * |   A  |   S  |   D  |   F  |   G  |           |   H  |   J  |   K  |   L  |   ;  |
  * |------+------+------+------+------|           |------+------+------+------+------|
- * |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |      |
+ * |   Z  |   X  |   C  |   V  |   B  |           |   N  |   M  |   ,  |   .  |   /  |
  * `----------------------------------'           `----------------------------------'
  *                  ,--------------------.    ,------,-------------.
  *                  |      | Bksp |      |    |      | Space|      |
@@ -60,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_BASE] = LAYOUT( \
   KC_Q,  KC_W,  KC_E,  KC_R,  KC_T,      KC_Y, KC_U,  KC_I,    KC_O,   KC_P, \
   LG(A), LA(S), LC(D), LS(F), KC_G,      KC_H, RS(J), RC(K),   RA(L),  RG(SCLN), \
-  KC_Z,  KC_X,  KC_C,  KC_V,  KC_B,      KC_N, KC_M,  KC_COMM, KC_DOT, XXXXXXX, \
+  KC_Z,  KC_X,  KC_C,  KC_V,  KC_B,      KC_N, KC_M,  KC_COMM, KC_DOT, KC_SLSH, \
   MO(_L_LOWER), LT(_L_RAISE,KC_BSPC), LT(_L_FN,KC_TAB), LT(_R_FN,KC_ENT), LT(_R_RAISE,KC_SPC), MO(_R_LOWER) \
 ),
 // NOTE added semicolon even though it's redundant, so that i3 shortcut works for motion. Could pick a diff character.
@@ -210,4 +227,3 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 };
-
