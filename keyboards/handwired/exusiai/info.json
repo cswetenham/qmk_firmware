@@ -1,9 +1,9 @@
 {
-    "keyboard_name": "exusiai",
+    "keyboard_name": "Exusiai",
     "url": "",
     "maintainer": "Iris Swetenham",
-    "width": 3,
-    "height": 2,
+    "width": 10,
+    "height": 4,
     "layouts": {
         "LAYOUT": {
             "layout": [

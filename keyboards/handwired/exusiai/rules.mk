@@ -64,3 +64,5 @@ DEBOUNCE_TYPE = eager_pk
 # NOTE(Fib) turned on by ergodox firmware
 LINK_TIME_OPTIMIZATION_ENABLE = yes
 
+# NOTE(Fib) Should be the right setting for the Adafruit Feather BLE 32u4
+BLUETOOTH = AdafruitBLE

@@ -19,6 +19,13 @@
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
 
+// From the docs on qmk bluetooth support
+// Bluetooth Keycodes
+// This is used when multiple keyboard outputs can be selected. Currently this only allows for switching between USB and Bluetooth on keyboards that support both.
+// OUT_AUTO Automatically switch between USB and Bluetooth
+// OUT_USB USB only
+// OUT_BT Bluetooth only
+
 #define LG(KEY) MT(MOD_LGUI, KC_ ## KEY)
 #define RG(KEY) MT(MOD_RGUI, KC_ ## KEY)
 #define LC(KEY) MT(MOD_LCTL, KC_ ## KEY)
