@@ -36,7 +36,8 @@ enum layer_names {
     _L_RAISE,
     _R_RAISE,
     _L_LOWER,
-    _R_LOWER
+    _R_LOWER,
+    _GAMING
 };
 
 // NOTE added tri-layer so we can use just 2 thumb keys
@@ -69,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `----------------------------------'           `----------------------------------'
  *                  ,--------------------.    ,------,-------------.
  *                  |      | Bksp |      |    |      | Space|      |
- *                  | Lower| Raise| Tab  |    | Enter| Raise| Lower|
+ *                  |Gaming| Raise| Tab  |    | Enter| Raise|      |
  *                  `-------------| Fn   |    |  Fn  |-------------'
  *                                |      |    |      |
  *                                `------'    `------'
@@ -78,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_Q,  KC_W,  KC_E,  KC_R,  KC_T,      KC_Y, KC_U,  KC_I,    KC_O,   KC_P, \
   LG(A), LA(S), LC(D), LS(F), KC_G,      KC_H, RS(J), RC(K),   RA(L),  RG(SCLN), \
   KC_Z,  KC_X,  KC_C,  KC_V,  KC_B,      KC_N, KC_M,  KC_COMM, KC_DOT, KC_SLSH, \
-  MO(_L_LOWER), LT(_L_RAISE,KC_BSPC), LT(_L_FN,KC_TAB), LT(_R_FN,KC_ENT), LT(_R_RAISE,KC_SPC), MO(_R_LOWER) \
+  TO(_GAMING), LT(_L_RAISE,KC_BSPC), LT(_L_FN,KC_TAB), LT(_R_FN,KC_ENT), LT(_R_RAISE,KC_SPC), XXXXXXX \
 ),
 // NOTE added semicolon even though it's redundant, so that i3 shortcut works for motion. Could pick a diff character.
 
@@ -224,6 +225,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                     _______, _______, _______,      _______, _______, _______ \
 ),
 
-
+/* Gaming - Qwerty with left hand rotated so WASD is comfortable. WIP on smaller keyboard...
+ * Need shift and ctrl, maybe instead of A and Z.
+ * This is for mouse and keyboard games, mostly for ones with fps style controls.
+ * So everything needs to fit on left hand...
+ * Swap space and backspace. Tab is often a menu/map thing. Alt more rare.
+ * Could make left thumbs tab, space, ctrl and have bottom left (z/b) be shift? (a/g) will be more
+ * often already bound in the game.
+ * TODO need Escape key too! Instead of T?
+ *
+ * ,----------------------------------.           ,----------------------------------.
+ * |  Esc |   Q  |   W  |   E  |   R  |           |   Y  |   U  |   I  |   O  |   P  |
+ * |------+------+------+------+------|           |------+------+------+------+------|
+ * |   G  |   A  |   S  |   D  |   F  |           |   H  |   J  |   K  |   L  |   ;  |
+ * |------+------+------+------+------|           |------+------+------+------+------|
+ * |Shift |   Z  |   X  |   C  |   V  |           |   N  |   M  |   ,  |   .  |   /  |
+ * `----------------------------------'           `----------------------------------'
+ *                  ,--------------------.    ,------,-------------.
+ *                  |  Tab | Space|      |    |      | Bksp |      |
+ *                  |      |      | Ctrl |    | Enter|      | Base |
+ *                  `-------------|      |    |      |-------------'
+ *                                |      |    |      |
+ *                                `------'    `------'
+ */
+[_GAMING] = LAYOUT( \
+  KC_ESC,  KC_Q,  KC_W,  KC_E,  KC_R,      KC_Y, KC_U,  KC_I,    KC_O,   KC_P, \
+  KC_G,    KC_A,  KC_S,  KC_D,  KC_F,      KC_H, KC_J,  KC_K,    KC_L,   KC_SCLN, \
+  KC_LSFT, KC_Z,  KC_X,  KC_C,  KC_V,      KC_N, KC_M,  KC_COMM, KC_DOT, KC_SLSH, \
+                  KC_TAB, KC_SPC, KC_LCTL, KC_ENT, KC_BSPC, TO(_BASE) \
+),
 
 };
