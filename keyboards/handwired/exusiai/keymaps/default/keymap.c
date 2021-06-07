@@ -44,7 +44,8 @@ enum layer_names {
     _R_RAISE,
     _L_LOWER,
     _R_LOWER,
-    _GAMING
+    _GAMING,
+    _DDR
 };
 
 // NOTE added tri-layer so we can use just 2 thumb keys
@@ -249,7 +250,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |Shift |   Z  |   X  |   C  |   V  |           |   N  |   M  |   ,  |   .  |   /  |
  * `----------------------------------'           `----------------------------------'
  *                  ,--------------------.    ,------,-------------.
- *                  |  Tab | Space|      |    |      | Bksp |      |
+ *                  |  DDR | Space|      |    |      | Bksp |      |
  *                  |      |      | Ctrl |    | Enter|      | Base |
  *                  `-------------|      |    |      |-------------'
  *                                |      |    |      |
@@ -259,7 +260,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_ESC,  KC_Q,  KC_W,  KC_E,  KC_R,      KC_Y, KC_U,  KC_I,    KC_O,   KC_P, \
   KC_G,    KC_A,  KC_S,  KC_D,  KC_F,      KC_H, KC_J,  KC_K,    KC_L,   KC_SCLN, \
   KC_LSFT, KC_Z,  KC_X,  KC_C,  KC_V,      KC_N, KC_M,  KC_COMM, KC_DOT, KC_SLSH, \
-                  KC_TAB, KC_SPC, KC_LCTL, KC_ENT, KC_BSPC, TO(_BASE) \
+                  TO(_DDR), KC_SPC, KC_LCTL, KC_ENT, KC_BSPC, TO(_BASE) \
+),
+
+/* DDR - for StepMania etc games.
+ *
+ * ,----------------------------------.           ,----------------------------------.
+ * |  Esc |      |      |      |      |           |      |      |      |      |      |
+ * |------+------+------+------+------|           |------+------+------+------+------|
+ * |      |   A  |   S  |      |      |           |      |      |   W  |   D  |      |
+ * |------+------+------+------+------|           |------+------+------+------+------|
+ * |      | Left | Down |      |      |           |      |      |  Up  | Right|      |
+ * `----------------------------------'           `----------------------------------'
+ *                  ,--------------------.    ,------,-------------.
+ *                  |      | Bksp |      |    |      | Space|      |
+ *                  |      |      | Tab  |    | Enter|      | Base |
+ *                  `-------------|      |    |      |-------------'
+ *                                |      |    |      |
+ *                                `------'    `------'
+ */
+[_DDR] = LAYOUT( \
+  KC_ESC,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, \
+  XXXXXXX, KC_A,    KC_S,    XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, KC_W,    KC_D,    XXXXXXX, \
+  XXXXXXX, KC_LEFT, KC_DOWN, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, KC_UP,   KC_RGHT, XXXXXXX, \
+                    XXXXXXX, KC_BSPC, KC_TAB,       KC_ENT,  KC_SPC,  TO(_BASE) \
 ),
 
 };
